@@ -1,0 +1,166 @@
+Enter password: *****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.21 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use employee;
+Database changed
+mysql> desc emp;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   | MUL | NULL    |       |
+| salary   | decimal(18,2) | NO   |     | 5000.00 |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_id   | varchar(10) | NO   | PRI | NULL    |       |
+| dept_name | varchar(20) | NO   |     | NULL    |       |
+| location  | varchar(20) | NO   |     | NULL    |       |
+| budget    | int         | YES  |     | 10000   |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into emp(emp_id,name,dept_id,salary,DOB,phone_no,city) values ('101','ABC','401','7000.00','1995-07-24','8908908908','Delhi');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`employee`.`emp`, CONSTRAINT `emp_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `dept` (`dept_id`))
+mysql> insert into dept(dept_id,dept_name,location,budget) values ('401','Computer','2nd Floor North',15000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into dept(dept_id,dept_name,location,budget) values ('402','Mechanical','2nd Floor South',12000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dept(dept_id,dept_name,location,budget) values ('403','I.T.','3rd Floor South',30000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dept(dept_id,dept_name,location,budget) values ('404','Electronics','3rd Floor East',17000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into dept(dept_id,dept_name,location,budget) values ('405','Human Resources','Ground Floor',14000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from dept;
++---------+-----------------+-----------------+--------+
+| dept_id | dept_name       | location        | budget |
++---------+-----------------+-----------------+--------+
+| 401     | Computer        | 2nd Floor North |  15000 |
+| 402     | Mechanical      | 2nd Floor South |  12000 |
+| 403     | I.T.            | 3rd Floor South |  30000 |
+| 404     | Electronics     | 3rd Floor East  |  17000 |
+| 405     | Human Resources | Ground Floor    |  14000 |
++---------+-----------------+-----------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> insert into emp(emp_id,name,dept_id,salary,DOB,phone_no,city) values ('101','ABC','401','7000.00','1995-07-24','8908908908','Delhi');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(emp_id,name,dept_id,salary,DOB,phone_no,city) values ('102','ABCD','401','9000.00','1996-07-14','8908358918','Mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(emp_id,name,dept_id,salary,DOB,phone_no,city) values ('103','PQR','402','12000.00','1990-11-01','7234358722','Mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(emp_id,name,dept_id,salary,DOB,phone_no,city) values ('104','ABD','403','20000.00','1988-12-31','7456758722','Chennai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(emp_id,name,dept_id,salary,DOB,phone_no,city) values ('105','XYZ','404','6000.00','1997-02-09','7482538719','Bangalore');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into emp(emp_id,name,dept_id,salary,DOB,phone_no,city) values ('106','PQRS','405','21000.00','1995-04-09','7682538510','Pune');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp(emp_id,name,dept_id,salary,DOB,phone_no,city) values ('107','DEF','405','25000.00','1992-07-26','7682513596','Kolkata');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  7000.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  9000.00 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 20000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from emp where name like '%D';
++--------+------+---------+----------+------------+------------+---------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city    |
++--------+------+---------+----------+------------+------------+---------+
+|    102 | ABCD | 401     |  9000.00 | 1996-07-14 | 8908358918 | Mumbai  |
+|    104 | ABD  | 403     | 20000.00 | 1988-12-31 | 7456758722 | Chennai |
++--------+------+---------+----------+------------+------------+---------+
+2 rows in set (0.00 sec)
+
+mysql> update emp set salary=15000 where emp_id='104';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from emp;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  7000.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  9000.00 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.01 sec)
+
+mysql> delete from emp where emp_id='105';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++--------+------+---------+----------+------------+------------+---------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city    |
++--------+------+---------+----------+------------+------------+---------+
+|    101 | ABC  | 401     |  7000.00 | 1995-07-24 | 8908908908 | Delhi   |
+|    102 | ABCD | 401     |  9000.00 | 1996-07-14 | 8908358918 | Mumbai  |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai  |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune    |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata |
++--------+------+---------+----------+------------+------------+---------+
+6 rows in set (0.00 sec)
+
+mysql> insert into emp(emp_id,name,dept_id,salary,DOB,phone_no,city) values ('105','XYZ','404','6000.00','1997-02-09','7482538719','Bangalore');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  7000.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  9000.00 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql>
+
