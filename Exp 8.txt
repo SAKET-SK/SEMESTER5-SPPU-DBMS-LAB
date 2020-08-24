@@ -1,0 +1,214 @@
+mysql: [Warning] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe: ignoring option '--no-beep' due to invalid value ''.
+Enter password: *****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.21 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> shoe databases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'shoe databases' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| emp                |
+| employee           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.07 sec)
+
+mysql> use employee;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_employee |
++--------------------+
+| dept               |
+| emp                |
+| emp1               |
++--------------------+
+3 rows in set (0.02 sec)
+
+mysql> select * from emp;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1312.50 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.01 sec)
+
+mysql> create view view1 as select emp_id,name,dept_id,salary from emp;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from view1;
++--------+------+---------+----------+
+| emp_id | name | dept_id | salary   |
++--------+------+---------+----------+
+|    101 | ABC  | 401     |  1312.50 |
+|    102 | ABCD | 401     |  1687.50 |
+|    103 | PQR  | 402     | 12000.00 |
+|    104 | ABD  | 403     | 15000.00 |
+|    105 | XYZ  | 404     |  6000.00 |
+|    106 | PQRS | 405     | 21000.00 |
+|    107 | DEF  | 405     | 25000.00 |
++--------+------+---------+----------+
+7 rows in set (0.01 sec)
+
+mysql> desc emp;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   | MUL | NULL    |       |
+| salary   | decimal(18,2) | NO   |     | 5000.00 |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> insert into view1 values(108,'MNO','403',9500.00);
+ERROR 1423 (HY000): Field of view 'employee.view1' underlying table doesn't have a default value
+mysql> create view view1 as select emp_id,name,dept_id,salary from emp where dept_id = 401;
+ERROR 1050 (42S01): Table 'view1' already exists
+mysql> create view view2 as select emp_id,name,dept_id,salary from emp where dept_id = 401;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from view2;
++--------+------+---------+---------+
+| emp_id | name | dept_id | salary  |
++--------+------+---------+---------+
+|    101 | ABC  | 401     | 1312.50 |
+|    102 | ABCD | 401     | 1687.50 |
++--------+------+---------+---------+
+2 rows in set (0.01 sec)
+
+mysql> create view view3 as select emp_id,name,dept_id,salary,city from emp;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from view3;
++--------+------+---------+----------+-----------+
+| emp_id | name | dept_id | salary   | city      |
++--------+------+---------+----------+-----------+
+|    101 | ABC  | 401     |  1312.50 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | Kolkata   |
++--------+------+---------+----------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> insert into view3 values(108,'MNO','403',9500.00,'Delhi');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from view3;
++--------+------+---------+----------+-----------+
+| emp_id | name | dept_id | salary   | city      |
++--------+------+---------+----------+-----------+
+|    101 | ABC  | 401     |  1312.50 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | Kolkata   |
+|    108 | MNO  | 403     |  9500.00 | Delhi     |
++--------+------+---------+----------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> update view3 set salary = 1500.00 where name = 'ABC';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from view3;
++--------+------+---------+----------+-----------+
+| emp_id | name | dept_id | salary   | city      |
++--------+------+---------+----------+-----------+
+|    101 | ABC  | 401     |  1500.00 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | Kolkata   |
+|    108 | MNO  | 403     |  9500.00 | Delhi     |
++--------+------+---------+----------+-----------+
+8 rows in set (0.01 sec)
+
+mysql> drop view view1;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delete from view1 where emp_id = 108;
+ERROR 1146 (42S02): Table 'employee.view1' doesn't exist
+mysql> delete from view3 where emp_id = 108;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from view3;
++--------+------+---------+----------+-----------+
+| emp_id | name | dept_id | salary   | city      |
++--------+------+---------+----------+-----------+
+|    101 | ABC  | 401     |  1500.00 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | Kolkata   |
++--------+------+---------+----------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> create view4 select emp_id,name,dept_id,salary,city from emp where salary is not null with check option;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'view4 select emp_id,name,dept_id,salary,city from emp where salary is not null w' at line 1
+mysql> create view4 as select emp_id,name,dept_id,salary,city from emp where salary is not null with check option;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'view4 as select emp_id,name,dept_id,salary,city from emp where salary is not nul' at line 1
+mysql> create view4 as select e.emp_id,e.name,e.dept_id,e.salary,e.city,d.dept_name,d.location,d.budget from emp e dept d;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'view4 as select e.emp_id,e.name,e.dept_id,e.salary,e.city,d.dept_name,d.location' at line 1
+mysql> create view4 as select e.emp_id,e.name,e.dept_id,e.salary,e.city,d.dept_id,d.dept_name,d.location,d.budget from emp e dept d where e.dept_id=d.dept_id ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'view4 as select e.emp_id,e.name,e.dept_id,e.salary,e.city,d.dept_id,d.dept_name,' at line 1
+mysql> create view view4 as select e.emp_id,e.name,e.dept_id,e.salary,e.city,d.dept_id,d.dept_name,d.location,d.budget from emp e dept d where e.dept_id=d.dept_id ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dept d where e.dept_id=d.dept_id' at line 1
+mysql> create view view4 as select e.emp_id,e.name,e.dept_id,e.salary,e.city,d.dept_id,d.dept_name,d.location,d.budget from emp e,dept d where e.dept_id=d.dept_id ;
+ERROR 1060 (42S21): Duplicate column name 'dept_id'
+mysql> create view view4 as select e.emp_id,e.name,e.dept_id,e.salary,e.city,d.dept_name,d.location,d.budget from emp e,dept d where e.dept_id=d.dept_id ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from view4;
++--------+------+---------+----------+-----------+-----------------+-----------------+--------+
+| emp_id | name | dept_id | salary   | city      | dept_name       | location        | budget |
++--------+------+---------+----------+-----------+-----------------+-----------------+--------+
+|    101 | ABC  | 401     |  1500.00 | Delhi     | Computer        | 2nd Floor North |  15000 |
+|    102 | ABCD | 401     |  1687.50 | Mumbai    | Computer        | 2nd Floor North |  15000 |
+|    103 | PQR  | 402     | 12000.00 | Mumbai    | Mechanical      | 2nd Floor South |  12000 |
+|    104 | ABD  | 403     | 15000.00 | Chennai   | I.T.            | 3rd Floor South |  30000 |
+|    105 | XYZ  | 404     |  6000.00 | Bangalore | Electronics     | 3rd Floor East  |  17000 |
+|    106 | PQRS | 405     | 21000.00 | Pune      | Human Resources | Ground Floor    |  14000 |
+|    107 | DEF  | 405     | 25000.00 | Kolkata   | Human Resources | Ground Floor    |  14000 |
++--------+------+---------+----------+-----------+-----------------+-----------------+--------+
+7 rows in set (0.01 sec)
+
+mysql> create view view5 as select emp_id,name,dept_id,salary,city from emp where salary is not null with check option;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
