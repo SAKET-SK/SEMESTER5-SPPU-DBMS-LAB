@@ -1,0 +1,111 @@
+Microsoft Windows [Version 10.0.18363.1082]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\Saket>cd program files
+The system cannot find the path specified.
+
+C:\Users\Saket>cd..
+
+C:\Users>cd..
+
+C:\>cd "Program Files"
+
+C:\Program Files>cd MongoDB
+
+C:\Program Files\MongoDB>cd Server
+
+C:\Program Files\MongoDB\Server>cd 4.4
+
+C:\Program Files\MongoDB\Server\4.4>cd bin
+
+C:\Program Files\MongoDB\Server\4.4\bin>mongo
+MongoDB shell version v4.4.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("b42c4231-b6b3-41f4-a860-f0328ce1f726") }
+MongoDB server version: 4.4.1
+---
+The server generated these startup warnings when booting:
+        2020-10-09T16:54:25.679+05:30: ***** SERVER RESTARTED *****
+        2020-10-09T16:54:28.215+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> db.student.aggregate([{$group:{_id:"$by_user","Credits":{$sum : "$Credits"}}}])
+>    ;
+> ;;;
+> ^C
+bye
+
+C:\Program Files\MongoDB\Server\4.4\bin>mongo
+MongoDB shell version v4.4.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("8a0ab3cb-5d2b-43d6-b9d7-fade809b275b") }
+MongoDB server version: 4.4.1
+---
+The server generated these startup warnings when booting:
+        2020-10-09T16:54:25.679+05:30: ***** SERVER RESTARTED *****
+        2020-10-09T16:54:28.215+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> use I2IT;
+switched to db I2IT
+> db.student.aggregate([{$group:{_id:"$by_user","Credits":{$sum : "$Credits"}}}])
+{ "_id" : null, "Credits" : 55.3 }
+> db.student.preety()
+uncaught exception: TypeError: db.student.preety is not a function :
+@(shell):1:1
+> db.student.find()
+{ "_id" : ObjectId("5f68498ad270133c4c90808c"), "id" : "TI002", "Name" : "XYZ", "Credits" : 6.5, "City" : "Pune" }
+{ "_id" : ObjectId("5f6aea0a5a9d4c21404ba23b"), "id" : "TI002", "Name" : "PQR", "Credits" : 8.3 }
+{ "_id" : ObjectId("5f6aea265a9d4c21404ba23c"), "id" : "TI003", "Name" : "XYZ", "Credits" : 8.7 }
+{ "_id" : ObjectId("5f6aea395a9d4c21404ba23d"), "id" : "TI004", "Name" : "ASD", "Credits" : 7.6 }
+{ "_id" : ObjectId("5f6aea495a9d4c21404ba23e"), "id" : "TI005", "Name" : "DEF", "Credits" : 7.8 }
+{ "_id" : ObjectId("5f6af1775a9d4c21404ba23f"), "id" : "TI006", "Name" : "ASB", "Credits" : 7.9, "Languages" : [ "C", "C++", "Java" ] }
+{ "_id" : ObjectId("5f6af1945a9d4c21404ba240"), "id" : "TI007", "Name" : "XTB", "Credits" : 8.5, "Languages" : [ "C", "C++", "Java", "Python" ] }
+> db.student.aggregate([{$group:{_id:"$by_user","Credits":{$avg : "$Credits"}}}])
+{ "_id" : null, "Credits" : 7.8999999999999995 }
+> db.student.aggregate([{$group:{_id:"$by_user","Credits":{$min : "$Credits"}}}])
+{ "_id" : null, "Credits" : 6.5 }
+> db.student.aggregate([{$group:{_id:"$by_user","Credits":{$max : "$Credits"}}}])
+{ "_id" : null, "Credits" : 8.7 }
+> db.student.aggregate([{$group:{_id:"$by_user",url:{$push:"$url"}}}])
+{ "_id" : null, "url" : [ ] }
+> db.student.aggregate([{$group:{_id:"$by_user",url:{$addToSet:"$url"}}}])
+{ "_id" : null, "url" : [ ] }
+> db.student.find()
+{ "_id" : ObjectId("5f68498ad270133c4c90808c"), "id" : "TI002", "Name" : "XYZ", "Credits" : 6.5, "City" : "Pune" }
+{ "_id" : ObjectId("5f6aea0a5a9d4c21404ba23b"), "id" : "TI002", "Name" : "PQR", "Credits" : 8.3 }
+{ "_id" : ObjectId("5f6aea265a9d4c21404ba23c"), "id" : "TI003", "Name" : "XYZ", "Credits" : 8.7 }
+{ "_id" : ObjectId("5f6aea395a9d4c21404ba23d"), "id" : "TI004", "Name" : "ASD", "Credits" : 7.6 }
+{ "_id" : ObjectId("5f6aea495a9d4c21404ba23e"), "id" : "TI005", "Name" : "DEF", "Credits" : 7.8 }
+{ "_id" : ObjectId("5f6af1775a9d4c21404ba23f"), "id" : "TI006", "Name" : "ASB", "Credits" : 7.9, "Languages" : [ "C", "C++", "Java" ] }
+{ "_id" : ObjectId("5f6af1945a9d4c21404ba240"), "id" : "TI007", "Name" : "XTB", "Credits" : 8.5, "Languages" : [ "C", "C++", "Java", "Python" ] }
+> db.student.ensureIndex({"_id":1,"Credits":-1},{unique:true})
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 1,
+        "numIndexesAfter" : 2,
+        "ok" : 1
+}
+> db.student.dropIndex({"_id":1,"Credits":-1},{unique:true})
+{ "nIndexesWas" : 2, "ok" : 1 }
+>

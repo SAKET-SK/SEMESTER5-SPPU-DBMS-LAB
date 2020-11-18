@@ -1,0 +1,179 @@
+mysql: [Warning] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe: ignoring option '--no-beep' due to invalid value ''.
+Enter password: *****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 16
+Server version: 8.0.21 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++-----------------------------+
+| Database                    |
++-----------------------------+
+| computer_training_institute |
+| customer_order              |
+| emp                         |
+| employee                    |
+| information_schema          |
+| mysql                       |
+| performance_schema          |
+| sakila                      |
+| student                     |
+| sys                         |
+| world                       |
++-----------------------------+
+11 rows in set (0.00 sec)
+
+mysql> use employee;
+Database changed
+mysql> delimiter //
+mysql> create procedure show_emp_data()
+    -> begin
+    -> select * from view4
+    -> ;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter //
+mysql> delimiter ;
+mysql> call show_emp_data();
++--------+------+---------+----------+-----------+-----------------+-----------------+--------+
+| emp_id | name | dept_id | salary   | city      | dept_name       | location        | budget |
++--------+------+---------+----------+-----------+-----------------+-----------------+--------+
+|    101 | ABC  | 401     |  1500.00 | Delhi     | Computer        | 2nd Floor North |  15000 |
+|    102 | ABCD | 401     |  1687.50 | Mumbai    | Computer        | 2nd Floor North |  15000 |
+|    103 | PQR  | 402     | 12000.00 | Mumbai    | Mechanical      | 2nd Floor South |  12000 |
+|    104 | ABD  | 403     | 15000.00 | Chennai   | I.T.            | 3rd Floor South |  30000 |
+|    105 | XYZ  | 404     |  6000.00 | Bangalore | Electronics     | 3rd Floor East  |  17000 |
+|    106 | PQRS | 405     | 21000.00 | Pune      | Human Resources | Ground Floor    |  14000 |
+|    107 | DEF  | 405     | 25000.00 | Kolkata   | Human Resources | Ground Floor    |  14000 |
++--------+------+---------+----------+-----------+-----------------+-----------------+--------+
+7 rows in set (0.01 sec)
+
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> use customer_order;
+Database changed
+mysql> delimiter $$
+mysql> create procedure cust_name_show()
+    -> begin
+    -> select name from customer;
+    -> end;
+    -> $$
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call cust_name_show();
++------+
+| name |
++------+
+| ABC  |
+| ABCD |
+| PQR  |
++------+
+3 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> use employee;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_employee |
++--------------------+
+| dept               |
+| emp                |
+| emp1               |
+| view2              |
+| view3              |
+| view4              |
+| view5              |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> delimiter ##
+mysql> create procedure data_show()
+    -> begin
+    -> select * from emp;
+    -> end;
+    -> ##
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call data_show();
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1500.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> use mysql
+Database changed
+mysql> delimiter @@
+mysql> create procedure repeat_no(i int)
+    -> begin
+    -> set @x=0;
+    -> repeat set @x = @x + 3; until @x > i end repeat;
+    -> end
+    -> @@
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call repeat_no(1000);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select @x;
++------+
+| @x   |
++------+
+| 1002 |
++------+
+1 row in set (0.00 sec)
+
+mysql> use mysql
+Database changed
+mysql> create function hello (s char(20))
+    -> returns char(50) deterministic
+    -> return concat('Hello ',s,'!');
+ERROR 1304 (42000): FUNCTION hello already exists
+mysql> create function hello1 (s char(20))
+    -> returns char(50) deterministic
+    -> return conact('Hello ',s,'!');
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select hello1(world);
+ERROR 1054 (42S22): Unknown column 'world' in 'field list'
+mysql> select hello1('world');
+ERROR 1305 (42000): FUNCTION mysql.conact does not exist
+mysql> create function hello1 (s char(20))
+    -> returns char(50) deterministic
+    -> return concat('Hello ',s,'!');
+ERROR 1304 (42000): FUNCTION hello1 already exists
+mysql> create function hello2 (s char(20))
+    -> returns char(50) deterministic
+    -> return concat('Hello ',s,'!');
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select hello2('world');
++-----------------+
+| hello2('world') |
++-----------------+
+| Hello world!    |
++-----------------+
+1 row in set (0.01 sec)

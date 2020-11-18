@@ -1,0 +1,453 @@
+mysql: [Warning] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe: ignoring option '--no-beep' due to invalid value ''.
+Enter password: *****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.21 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| emp                |
+| employee           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.09 sec)
+
+mysql> use employee
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_employee |
++--------------------+
+| dept               |
+| emp                |
+| emp1               |
++--------------------+
+3 rows in set (0.02 sec)
+
+mysql> desc emp;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   | MUL | NULL    |       |
+| salary   | decimal(18,2) | NO   |     | 5000.00 |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> desc emp1;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   |     | NULL    |       |
+| salary   | decimal(18,2) | NO   |     | NULL    |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_id   | varchar(10) | NO   | PRI | NULL    |       |
+| dept_name | varchar(20) | NO   |     | NULL    |       |
+| location  | varchar(20) | NO   |     | NULL    |       |
+| budget    | int         | YES  |     | 10000   |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> alter table emp1 add foreign key(dept-_id) references dept(dept_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-_id) references dept(dept_id)' at line 1
+mysql> alter table emp1 add foreign key(dept_id) references dept(dept_id);
+Query OK, 7 rows affected (0.26 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> desc emp1;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   | MUL | NULL    |       |
+| salary   | decimal(18,2) | NO   |     | NULL    |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc emp;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   | MUL | NULL    |       |
+| salary   | decimal(18,2) | NO   |     | 5000.00 |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> ALTER TABLE CUSTOMERS
+    -> ;
+ERROR 1146 (42S02): Table 'employee.customers' doesn't exist
+mysql> alter table emp1 modify salary decimal(18,2) default 5000.00;
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp1;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   | MUL | NULL    |       |
+| salary   | decimal(18,2) | YES  |     | 5000.00 |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> alter table emp1 modify salary decimal(18,2) not null default 5000.00;
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc emp1;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   | MUL | NULL    |       |
+| salary   | decimal(18,2) | NO   |     | 5000.00 |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> selcet * from emp1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selcet * from emp1' at line 1
+mysql> select * from emp1;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  7000.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  9000.00 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.01 sec)
+
+mysql> truncate emp1;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> select * from emp1;
+Empty set (0.01 sec)
+
+mysql> insert into emp1
+    -> select * from emp where emp_id in(select emp_id from emp);
+Query OK, 7 rows affected (0.03 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from emp1;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1750.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  2250.00 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> update emp1
+    -> set salary = salary * 0.75 where dept_id in(select dept_id from emp1 where dept_id=401);
+ERROR 1093 (HY000): You can't specify target table 'emp1' for update in FROM clause
+mysql> update emp set salary = salary * 0.75 where dept_id in(select dept_id from emp1 where dept_id = 401);
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from emp;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1312.50 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.01 sec)
+
+mysql> select * from emp1;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1750.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  2250.00 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> insert into emp1 select * from emp where emp_id in(select emp_id from emp);
+ERROR 1062 (23000): Duplicate entry '101' for key 'emp1.PRIMARY'
+mysql> select * from emp where exists(select dept_id from emp);
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1312.50 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.01 sec)
+
+mysql> select * from emp where exists(select dept_id from emp where salary<10000);
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1312.50 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.01 sec)
+
+mysql> select * from emp where exists(select dept_id from emp where emp.salary=12000);
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1312.50 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select emp_id from emp where exists(select dept_id from emp where emp.salary=12000);
++--------+
+| emp_id |
++--------+
+|    101 |
+|    102 |
+|    103 |
+|    104 |
+|    105 |
+|    106 |
+|    107 |
++--------+
+7 rows in set (0.00 sec)
+
+mysql> select emp_id from emp where exists(select * from dept);
++--------+
+| emp_id |
++--------+
+|    101 |
+|    102 |
+|    103 |
+|    104 |
+|    105 |
+|    106 |
+|    107 |
++--------+
+7 rows in set (0.01 sec)
+
+mysql> select dept_id,salary from emp1 where salary > any(select dept_id,salary from emp);
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select dept_id from emp1 where salary > any(select dept_id from emp);
++---------+
+| dept_id |
++---------+
+| 401     |
+| 401     |
+| 402     |
+| 403     |
+| 404     |
+| 405     |
+| 405     |
++---------+
+7 rows in set (0.01 sec)
+
+mysql> select dept_id from emp1 where salary != any(select dept_id from emp);
++---------+
+| dept_id |
++---------+
+| 401     |
+| 401     |
+| 402     |
+| 403     |
+| 404     |
+| 405     |
+| 405     |
++---------+
+7 rows in set (0.00 sec)
+
+mysql> select dept_id from emp1 where dept_id != any(select dept_id from emp);
++---------+
+| dept_id |
++---------+
+| 401     |
+| 401     |
+| 402     |
+| 403     |
+| 404     |
+| 405     |
+| 405     |
++---------+
+7 rows in set (0.01 sec)
+
+mysql> select budget from dept where exists (select * from emp1);
++--------+
+| budget |
++--------+
+|  15000 |
+|  12000 |
+|  30000 |
+|  17000 |
+|  14000 |
++--------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct city from emp where exists(select * from emp where emp.city = emp1.city);
+ERROR 1054 (42S22): Unknown column 'emp1.city' in 'where clause'
+mysql> desc emp1;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   | MUL | NULL    |       |
+| salary   | decimal(18,2) | NO   |     | 5000.00 |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> select * from emp1;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1750.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  2250.00 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select distinct city from emp where exists(select * from emp where emp.city = emp1.city);
+ERROR 1054 (42S22): Unknown column 'emp1.city' in 'where clause'
+mysql> select distinct dept_id from emp where exists(select * from emp where emp.dept_id = emp1.dept_id);
+ERROR 1054 (42S22): Unknown column 'emp1.dept_id' in 'where clause'
+mysql> select distinct dept_id from emp where exists(select * from emp where emp1.dept_id = emp.dept_id);
+ERROR 1054 (42S22): Unknown column 'emp1.dept_id' in 'where clause'
+mysql> select distinct dept_id from emp where exists(select * from emp where dept.dept_id = emp.dept_id);
+ERROR 1054 (42S22): Unknown column 'dept.dept_id' in 'where clause'
+mysql> select distinct dept_id from emp1 where exists(select * from emp where dept.dept_id = emp.dept_id);
+ERROR 1054 (42S22): Unknown column 'dept.dept_id' in 'where clause'
+mysql> select distinct dept_id from emp where exists(select * from emp1 where emp.dept_id = emp1.dept_id);
++---------+
+| dept_id |
++---------+
+| 401     |
+| 402     |
+| 403     |
+| 404     |
+| 405     |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from emp where dept_id = any(select dept_id from emp1 where emp1.dept_id = emp.dept_id);
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  1312.50 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  1687.50 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> use employee;
+Database changed
+mysql> select emp_id from emp where dept_id not in('404');
++--------+
+| emp_id |
++--------+
+|    101 |
+|    102 |
+|    103 |
+|    104 |
+|    106 |
+|    107 |
++--------+
+6 rows in set (0.01 sec)
+
+mysql> select dept_id from emp where dept_id not in('404');
++---------+
+| dept_id |
++---------+
+| 401     |
+| 401     |
+| 402     |
+| 403     |
+| 405     |
+| 405     |
++---------+
+6 rows in set (0.00 sec)
+
+mysql>

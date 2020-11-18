@@ -1,0 +1,86 @@
+Microsoft Windows [Version 10.0.18363.1082]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\Saket>cd C:\Program Files\MongoDB\Server\4.4\bin
+
+C:\Program Files\MongoDB\Server\4.4\bin>mongo
+MongoDB shell version v4.4.1
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("550a6364-b5d2-422b-84a2-07111c46f17c") }
+MongoDB server version: 4.4.1
+---
+The server generated these startup warnings when booting:
+        2020-09-21T11:53:15.681+05:30: ***** SERVER RESTARTED *****
+        2020-09-21T11:53:16.619+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> use I2IT;
+switched to db I2IT
+> db.student.find()
+{ "_id" : ObjectId("5f68498ad270133c4c90808c"), "id" : "TI002", "Name" : "XYZ", "Credits" : 6.5, "City" : "Pune" }
+{ "_id" : ObjectId("5f6aea0a5a9d4c21404ba23b"), "id" : "TI002", "Name" : "PQR", "Credits" : 8.3 }
+{ "_id" : ObjectId("5f6aea265a9d4c21404ba23c"), "id" : "TI003", "Name" : "XYZ", "Credits" : 8.7 }
+{ "_id" : ObjectId("5f6aea395a9d4c21404ba23d"), "id" : "TI004", "Name" : "ASD", "Credits" : 7.6 }
+{ "_id" : ObjectId("5f6aea495a9d4c21404ba23e"), "id" : "TI005", "Name" : "DEF", "Credits" : 7.8 }
+{ "_id" : ObjectId("5f6af1775a9d4c21404ba23f"), "id" : "TI006", "Name" : "ASB", "Credits" : 7.9, "Languages" : [ "C", "C++", "Java" ] }
+{ "_id" : ObjectId("5f6af1945a9d4c21404ba240"), "id" : "TI007", "Name" : "XTB", "Credits" : 8.5, "Languages" : [ "C", "C++", "Java", "Python" ] }
+> db.student.find({$where : "this.Credits < 8.1"});
+{ "_id" : ObjectId("5f68498ad270133c4c90808c"), "id" : "TI002", "Name" : "XYZ", "Credits" : 6.5, "City" : "Pune" }
+{ "_id" : ObjectId("5f6aea395a9d4c21404ba23d"), "id" : "TI004", "Name" : "ASD", "Credits" : 7.6 }
+{ "_id" : ObjectId("5f6aea495a9d4c21404ba23e"), "id" : "TI005", "Name" : "DEF", "Credits" : 7.8 }
+{ "_id" : ObjectId("5f6af1775a9d4c21404ba23f"), "id" : "TI006", "Name" : "ASB", "Credits" : 7.9, "Languages" : [ "C", "C++", "Java" ] }
+> db.student.find().limit(3)
+{ "_id" : ObjectId("5f68498ad270133c4c90808c"), "id" : "TI002", "Name" : "XYZ", "Credits" : 6.5, "City" : "Pune" }
+{ "_id" : ObjectId("5f6aea0a5a9d4c21404ba23b"), "id" : "TI002", "Name" : "PQR", "Credits" : 8.3 }
+{ "_id" : ObjectId("5f6aea265a9d4c21404ba23c"), "id" : "TI003", "Name" : "XYZ", "Credits" : 8.7 }
+> db.student.find().skip(3)
+{ "_id" : ObjectId("5f6aea395a9d4c21404ba23d"), "id" : "TI004", "Name" : "ASD", "Credits" : 7.6 }
+{ "_id" : ObjectId("5f6aea495a9d4c21404ba23e"), "id" : "TI005", "Name" : "DEF", "Credits" : 7.8 }
+{ "_id" : ObjectId("5f6af1775a9d4c21404ba23f"), "id" : "TI006", "Name" : "ASB", "Credits" : 7.9, "Languages" : [ "C", "C++", "Java" ] }
+{ "_id" : ObjectId("5f6af1945a9d4c21404ba240"), "id" : "TI007", "Name" : "XTB", "Credits" : 8.5, "Languages" : [ "C", "C++", "Java", "Python" ] }
+> db.student.find().sort({"id":1,"Credits":-1})
+{ "_id" : ObjectId("5f6aea0a5a9d4c21404ba23b"), "id" : "TI002", "Name" : "PQR", "Credits" : 8.3 }
+{ "_id" : ObjectId("5f68498ad270133c4c90808c"), "id" : "TI002", "Name" : "XYZ", "Credits" : 6.5, "City" : "Pune" }
+{ "_id" : ObjectId("5f6aea265a9d4c21404ba23c"), "id" : "TI003", "Name" : "XYZ", "Credits" : 8.7 }
+{ "_id" : ObjectId("5f6aea395a9d4c21404ba23d"), "id" : "TI004", "Name" : "ASD", "Credits" : 7.6 }
+{ "_id" : ObjectId("5f6aea495a9d4c21404ba23e"), "id" : "TI005", "Name" : "DEF", "Credits" : 7.8 }
+{ "_id" : ObjectId("5f6af1775a9d4c21404ba23f"), "id" : "TI006", "Name" : "ASB", "Credits" : 7.9, "Languages" : [ "C", "C++", "Java" ] }
+{ "_id" : ObjectId("5f6af1945a9d4c21404ba240"), "id" : "TI007", "Name" : "XTB", "Credits" : 8.5, "Languages" : [ "C", "C++", "Java", "Python" ] }
+> db.student.find().sort({"id":-1})
+{ "_id" : ObjectId("5f6af1945a9d4c21404ba240"), "id" : "TI007", "Name" : "XTB", "Credits" : 8.5, "Languages" : [ "C", "C++", "Java", "Python" ] }
+{ "_id" : ObjectId("5f6af1775a9d4c21404ba23f"), "id" : "TI006", "Name" : "ASB", "Credits" : 7.9, "Languages" : [ "C", "C++", "Java" ] }
+{ "_id" : ObjectId("5f6aea495a9d4c21404ba23e"), "id" : "TI005", "Name" : "DEF", "Credits" : 7.8 }
+{ "_id" : ObjectId("5f6aea395a9d4c21404ba23d"), "id" : "TI004", "Name" : "ASD", "Credits" : 7.6 }
+{ "_id" : ObjectId("5f6aea265a9d4c21404ba23c"), "id" : "TI003", "Name" : "XYZ", "Credits" : 8.7 }
+{ "_id" : ObjectId("5f68498ad270133c4c90808c"), "id" : "TI002", "Name" : "XYZ", "Credits" : 6.5, "City" : "Pune" }
+{ "_id" : ObjectId("5f6aea0a5a9d4c21404ba23b"), "id" : "TI002", "Name" : "PQR", "Credits" : 8.3 }
+> db.student.find().sort({"Name":1}).limit(4)
+{ "_id" : ObjectId("5f6af1775a9d4c21404ba23f"), "id" : "TI006", "Name" : "ASB", "Credits" : 7.9, "Languages" : [ "C", "C++", "Java" ] }
+{ "_id" : ObjectId("5f6aea395a9d4c21404ba23d"), "id" : "TI004", "Name" : "ASD", "Credits" : 7.6 }
+{ "_id" : ObjectId("5f6aea495a9d4c21404ba23e"), "id" : "TI005", "Name" : "DEF", "Credits" : 7.8 }
+{ "_id" : ObjectId("5f6aea0a5a9d4c21404ba23b"), "id" : "TI002", "Name" : "PQR", "Credits" : 8.3 }
+> db.student.find().max({"Name":"XYZ"})
+Error: error: {
+        "ok" : 0,
+        "errmsg" : "error processing query: ns=I2IT.studentTree: $and\nSort: {}\nProj: {}\n planner returned error :: caused by :: When using min()/max() a hint of which index to use must be provided",
+        "code" : 51173,
+        "codeName" : "Location51173"
+}
+> db.student.find({$query:{},$orderby:{"Credits" : -1}})
+Error: error: {
+        "ok" : 0,
+        "errmsg" : "unknown top level operator: $query",
+        "code" : 2,
+        "codeName" : "BadValue"
+}
+>

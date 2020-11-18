@@ -1,0 +1,151 @@
+mysql: [Warning] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe: ignoring option '--no-beep' due to invalid value ''.
+Enter password: *****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.21 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use employee
+Database changed
+mysql> CREATE TABLE CUSTOMERS(
+    ->    ID   INT              NOT NULL,
+    ->    NAME VARCHAR (20)     NOT NULL,
+    ->    AGE  INT              NOT NULL,
+    ->    ADDRESS  CHAR (25) ,
+    ->    SALARY   DECIMAL (18, 2),
+    ->    PRIMARY KEY (ID)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc customers;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| ID      | int           | NO   | PRI | NULL    |       |
+| NAME    | varchar(20)   | NO   |     | NULL    |       |
+| AGE     | int           | NO   |     | NULL    |       |
+| ADDRESS | char(25)      | YES  |     | NULL    |       |
+| SALARY  | decimal(18,2) | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
+
+mysql> create table employ (
+    -> id int,
+    -> f_name varchar(15),
+    -> l_name varchar(15),
+    -> start_date date,
+    -> end_date date,
+    -> salary float(8,2),
+    -> city varchar(10),
+    -> description varchar(20)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.07 sec)
+
+mysql> create table transaction_log(
+    -> user_id varchar(15),
+    -> description varchar(20)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> delimiter ##
+mysql> create trigger trig1
+    -> before delete on employ
+    -> for each row
+    -> begin
+    -> insert into transaction_log(user_id, description) values (user(),'Emp Deleted!!');
+    -> end ##
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into employ(id,f_name,l_name,start_date,end_date,salary,city,description) values (1,'asd','def','1999-07-07','2005-05-02',12000.00,'Delhi','Record Active');
+    -> ;
+    -> ;
+    -> ^C
+mysql> desc emp;
+    -> ;
+    -> ^C
+mysql> desc emp
+    -> ;
+    -> ^C
+mysql> desc employ
+    -> ;
+    -> ^C
+mysql> ^C
+mysql> delimiter ;
+mysql> insert into employ(id,f_name,l_name,start_date,end_date,salary,city,description) values (1,'asd','def','1999-07-07','2005-05-02',12000.00,'Delhi','Record Active');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employ(id,f_name,l_name,start_date,end_date,salary,city,description) values (2,'pqr','def','1999-02-07','2009-12-02',11000.00,'Mumbai','Record Active');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employ(id,f_name,l_name,start_date,end_date,salary,city,description) values (3,'xyz','mno','1998-02-07','2012-12-24',7000.00,'Kolkata','Record Active');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> delete from employ where id = 1;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> drop trigger trig1;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from employ;
++------+--------+--------+------------+------------+----------+---------+---------------+
+| id   | f_name | l_name | start_date | end_date   | salary   | city    | description   |
++------+--------+--------+------------+------------+----------+---------+---------------+
+|    2 | pqr    | def    | 1999-02-07 | 2009-12-02 | 11000.00 | Mumbai  | Record Active |
+|    3 | xyz    | mno    | 1998-02-07 | 2012-12-24 |  7000.00 | Kolkata | Record Active |
++------+--------+--------+------------+------------+----------+---------+---------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from transaction_log;
++----------------+---------------+
+| user_id        | description   |
++----------------+---------------+
+| root@localhost | Emp Deleted!! |
++----------------+---------------+
+1 row in set (0.00 sec)
+
+mysql> delimiter ##
+mysql> create trigger trig2
+    -> before delete on employ
+    -> for each row
+    -> begin
+    -> insert into transaction_log(user_id, description) values (user(),'Emp Deleted!!');
+    -> end ##
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delete from employ where id = 2;
+    -> ^C
+mysql> delimiter ;
+mysql> delete from employ where id = 2;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from employ;
++------+--------+--------+------------+------------+---------+---------+---------------+
+| id   | f_name | l_name | start_date | end_date   | salary  | city    | description   |
++------+--------+--------+------------+------------+---------+---------+---------------+
+|    3 | xyz    | mno    | 1998-02-07 | 2012-12-24 | 7000.00 | Kolkata | Record Active |
++------+--------+--------+------------+------------+---------+---------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select * from transaction_log;
++----------------+---------------+
+| user_id        | description   |
++----------------+---------------+
+| root@localhost | Emp Deleted!! |
+| root@localhost | Emp Deleted!! |
++----------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into employ(id,f_name,l_name,start_date,end_date,salary,city,description) values (2,'pqr','def','1999-02-07','2009-12-02',11000.00,'Mumbai','Record Active');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employ(id,f_name,l_name,start_date,end_date,salary,city,description) values (1,'asd','def','1999-07-07','2005-05-02',12000.00,'Delhi','Record Active');
+Query OK, 1 row affected (0.01 sec)
+
+mysql>

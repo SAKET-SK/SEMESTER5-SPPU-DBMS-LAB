@@ -1,0 +1,214 @@
+mysql: [Warning] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe: ignoring option '--no-beep' due to invalid value ''.
+Enter password: *****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 8.0.21 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use employee;
+Database changed
+mysql> desc emp;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| name     | varchar(15)   | NO   |     | NULL    |       |
+| dept_id  | varchar(10)   | NO   | MUL | NULL    |       |
+| salary   | decimal(18,2) | NO   |     | 5000.00 |       |
+| DOB      | date          | YES  |     | NULL    |       |
+| phone_no | varchar(10)   | YES  | UNI | NULL    |       |
+| city     | varchar(20)   | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_id   | varchar(10) | NO   | PRI | NULL    |       |
+| dept_name | varchar(20) | NO   |     | NULL    |       |
+| location  | varchar(20) | NO   |     | NULL    |       |
+| budget    | int         | YES  |     | 10000   |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from emp;
++--------+------+---------+----------+------------+------------+-----------+
+| emp_id | name | dept_id | salary   | DOB        | phone_no   | city      |
++--------+------+---------+----------+------------+------------+-----------+
+|    101 | ABC  | 401     |  7000.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     |  9000.00 | 1996-07-14 | 8908358918 | Mumbai    |
+|    103 | PQR  | 402     | 12000.00 | 1990-11-01 | 7234358722 | Mumbai    |
+|    104 | ABD  | 403     | 15000.00 | 1988-12-31 | 7456758722 | Chennai   |
+|    105 | XYZ  | 404     |  6000.00 | 1997-02-09 | 7482538719 | Bangalore |
+|    106 | PQRS | 405     | 21000.00 | 1995-04-09 | 7682538510 | Pune      |
+|    107 | DEF  | 405     | 25000.00 | 1992-07-26 | 7682513596 | Kolkata   |
++--------+------+---------+----------+------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from dept;
++---------+-----------------+-----------------+--------+
+| dept_id | dept_name       | location        | budget |
++---------+-----------------+-----------------+--------+
+| 401     | Computer        | 2nd Floor North |  15000 |
+| 402     | Mechanical      | 2nd Floor South |  12000 |
+| 403     | I.T.            | 3rd Floor South |  30000 |
+| 404     | Electronics     | 3rd Floor East  |  17000 |
+| 405     | Human Resources | Ground Floor    |  14000 |
++---------+-----------------+-----------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select count(*) from emp;
++----------+
+| count(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> select count(*) from dept;
++----------+
+| count(*) |
++----------+
+|        5 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from emp where city='Mumbai';
++----------+
+| count(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) from emp;
++-------------+
+| max(salary) |
++-------------+
+|    25000.00 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select max(salary) from emp group by name;
++-------------+
+| max(salary) |
++-------------+
+|     7000.00 |
+|     9000.00 |
+|    12000.00 |
+|    15000.00 |
+|     6000.00 |
+|    21000.00 |
+|    25000.00 |
++-------------+
+7 rows in set (0.00 sec)
+
+mysql> select emp_id,name,max(salary) from emp group by name;
++--------+------+-------------+
+| emp_id | name | max(salary) |
++--------+------+-------------+
+|    101 | ABC  |     7000.00 |
+|    102 | ABCD |     9000.00 |
+|    103 | PQR  |    12000.00 |
+|    104 | ABD  |    15000.00 |
+|    105 | XYZ  |     6000.00 |
+|    106 | PQRS |    21000.00 |
+|    107 | DEF  |    25000.00 |
++--------+------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select min(salary) from emp;
++-------------+
+| min(salary) |
++-------------+
+|     6000.00 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) from emp;
++--------------+
+| avg(salary)  |
++--------------+
+| 13571.428571 |
++--------------+
+1 row in set (0.01 sec)
+
+mysql> select emp_id,name,avg(salary) from emp group by city;
++--------+------+--------------+
+| emp_id | name | avg(salary)  |
++--------+------+--------------+
+|    101 | ABC  |  7000.000000 |
+|    102 | ABCD | 10500.000000 |
+|    104 | ABD  | 15000.000000 |
+|    105 | XYZ  |  6000.000000 |
+|    106 | PQRS | 21000.000000 |
+|    107 | DEF  | 25000.000000 |
++--------+------+--------------+
+6 rows in set (0.00 sec)
+
+mysql> select sum(salary) from emp;
++-------------+
+| sum(salary) |
++-------------+
+|    95000.00 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select * from emp group by city having salary < 10000;
++--------+------+---------+---------+------------+------------+-----------+
+| emp_id | name | dept_id | salary  | DOB        | phone_no   | city      |
++--------+------+---------+---------+------------+------------+-----------+
+|    101 | ABC  | 401     | 7000.00 | 1995-07-24 | 8908908908 | Delhi     |
+|    102 | ABCD | 401     | 9000.00 | 1996-07-14 | 8908358918 | Mumbai    |
+|    105 | XYZ  | 404     | 6000.00 | 1997-02-09 | 7482538719 | Bangalore |
++--------+------+---------+---------+------------+------------+-----------+
+3 rows in set (0.01 sec)
+
+mysql> select * from emp group by city having salary < 10000 and dept_id=401;
++--------+------+---------+---------+------------+------------+--------+
+| emp_id | name | dept_id | salary  | DOB        | phone_no   | city   |
++--------+------+---------+---------+------------+------------+--------+
+|    101 | ABC  | 401     | 7000.00 | 1995-07-24 | 8908908908 | Delhi  |
+|    102 | ABCD | 401     | 9000.00 | 1996-07-14 | 8908358918 | Mumbai |
++--------+------+---------+---------+------------+------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select now();
++---------------------+
+| now()               |
++---------------------+
+| 2020-08-17 15:49:30 |
++---------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT TIME('2017-12-31 01:02:03');
++-----------------------------+
+| TIME('2017-12-31 01:02:03') |
++-----------------------------+
+| 01:02:03                    |
++-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT DAYOFMONTH('1998-02-03');
++--------------------------+
+| DAYOFMONTH('1998-02-03') |
++--------------------------+
+|                        3 |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT DATE('2003-12-31 01:02:03');
++-----------------------------+
+| DATE('2003-12-31 01:02:03') |
++-----------------------------+
+| 2003-12-31                  |
++-----------------------------+
+1 row in set (0.00 sec)
